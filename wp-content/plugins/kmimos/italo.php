@@ -68,10 +68,10 @@
 		function get_form_ayuda_cliente_cuidador(){
 			echo '<section class="row km-caja-filtro ayuda-busqueda">
 				<div class="col-sm-6">
-					<input type="button" id="ayudaclientes" style="font-size:20px;margin:6px;" class="km-btn-primary" value="Ayuda para Clientes">
+					<input type="button" id="ayudaclientes" style="font-size:20px;" class="km-btn-primary" value="Ayuda para Clientes">
 					</div>
 				<div class="col-sm-6">
-					<input type="button" id="ayudacuidador" style="font-size:20px;margin:6px;" class="km-btn-primary" value="Ayuda para Cuidadores">
+					<input type="button" id="ayudacuidador" style="font-size:20px;" class="km-btn-primary" value="Ayuda para Cuidadores">
 					</div>
 					</section>';
 		}
@@ -188,7 +188,7 @@
 		global $wpdb;
 			$HTML= '';
 		    $seccionessugeridos = $wpdb->get_results("select t.term_id,name,slug from wp_terms t inner join wp_term_taxonomy  tx where t.term_id=tx.term_id  
-				and (select slug from wp_terms tt where tt.term_id = tx.parent) = 'sugeridos'  ");
+				and (select slug from wp_terms tt where tt.term_id = tx.parent) = 'sugeridos' limit 3 ");
 
  			
 			if( !empty($seccionessugeridos) ) { 	
@@ -197,45 +197,28 @@
 				
 				foreach ($seccionessugeridos as $categoria) { 
 
-
-
-
-
-
 					 $postsugeridos = $wpdb->get_results("select p.ID,p.post_title from wp_term_relationships tr 
 						inner join wp_posts p on tr.object_id=p.ID where tr.term_taxonomy_id=".$categoria->term_id." limit 2");
 
 					 $article .= '<h3><b>'.$categoria->name.'</b></h3>';
 
-					
 					foreach ($postsugeridos as $post) { 
 
-					
 					if($post->ID != $ID ){
 						$article .= '
 							<article>
 								<a style="text-decoration:none" href="'.get_the_permalink($post->ID).'">
-									<h3>'.$post->post_title.'</h3>
+									<h3>&nbsp;&nbsp;&nbsp;&nbsp;'.$post->post_title.'</h3>
 								</a>
 							</article>
 						';
 					}
-				
 
 				}
 
-						$cantpost = $wpdb->get_results("select count(*) cantidadpost from wp_term_relationships tr 
-							inner join wp_posts p on tr.object_id=p.ID where tr.term_taxonomy_id=".$categoria->term_id);
-						foreach ($cantpost as $cant) { 
-						$numeropost=$cant->cantidadpost;
-						}
-
-						if($numeropost>2){
-						$article .= '<a style="text-decoration:none" href="'.get_home_url().'/ayuda-ver-mas?categoria='.$categoria->term_id.'"><h3 style="color: #FCFAFA;"><b>Ver mas</b></h3></a>';
-						}
+				$article .= '<a style="text-decoration:none" href="'.get_home_url().'/ayuda-ver-mas?categoria='.$categoria->term_id.'"><h3 style="color: #2196F3;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Ver mas</b></h3></a>';
 					
 				}
-				
 				if( $article != '' ){
 					$HTML = '
 					<section class="temas-sugeridos">
@@ -296,7 +279,7 @@ if(!function_exists('get_ayuda_relacionados')){
 				}
 
 				$postsrelacionados = $wpdb->get_results("select p.ID,p.post_title from wp_term_relationships tr 
-						inner join wp_posts p on tr.object_id=p.ID where tr.term_taxonomy_id=".$id_padre." and p.ID!= ".$id_post." ");
+						inner join wp_posts p on tr.object_id=p.ID where tr.term_taxonomy_id=".$id_padre." and p.ID!= ".$id_post." limit 2");
 
 				if( !empty($postsrelacionados) ) { 	
  
