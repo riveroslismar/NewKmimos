@@ -68,10 +68,10 @@
 		function get_form_ayuda_cliente_cuidador(){
 			echo '<section class="row km-caja-filtro ayuda-busqueda">
 				<div class="col-sm-6">
-					<input type="button" id="ayudaclientes" style="font-size:20px;" class="km-btn-primary" value="Ayuda para Clientes">
+					<input type="button" id="ayudaclientes" style="font-size:20px;margin:6px;" class="km-btn-primary" value="Ayuda para Clientes">
 					</div>
 				<div class="col-sm-6">
-					<input type="button" id="ayudacuidador" style="font-size:20px;" class="km-btn-primary" value="Ayuda para Cuidadores">
+					<input type="button" id="ayudacuidador" style="font-size:20px;margin:6px;" class="km-btn-primary" value="Ayuda para Cuidadores">
 					</div>
 					</section>';
 		}
